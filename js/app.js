@@ -21,7 +21,6 @@ const pageUIController = (function () {
     const DOMStrings = {
         studentList: '.student-list',
         noResult: '.no-result',
-        studentSearch: 'student-search',
         pageHeader: '.page-header',
         pagination: '.pagination',
         page: '.page',
