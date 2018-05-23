@@ -28,7 +28,7 @@ const pageUIController = (function () {
         active: 'active',
     };
 
-    // Template litarals containing DOM elements 
+    // Template literals containing DOM elements 
     const DOMElements = {
         searchBar: `
             <div class="student-search">
