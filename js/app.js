@@ -169,7 +169,6 @@ const globalController = (function (pageUICtrl) {
             let $searchClick = $('input').val();
             // if the input isn't an empty string
             if ($searchClick !== '') {
-                // Perform the search 
                 // Clear the input field
                 $searchClick = $('input').val('');
             } else {
