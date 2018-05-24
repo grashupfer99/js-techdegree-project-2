@@ -7,7 +7,7 @@
 * https://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript
 * pageUIController module contains DOM strings, template literals with functions that perform search, render pages and pagination
 * globalController module controls the entire app, it gets data from the pageUIController module  
-* Both are standalone modules, each one of them works independently
+* Both are standalone modules, each part of the app works independently
 *
 */
 
@@ -146,10 +146,11 @@ const globalController = (function (pageUICtrl) {
     let $searchResList = $studentList;
 
     // Update search results, render the page and show pagination function combined / DRY 
-    const renderCombined = (searchResOne, searchResTwo = $searchResList) => {
-        searchResTwo = searchResOne;
-        pageUICtrl.renderPage(searchResTwo);
-        pageUICtrl.appendPagination(searchResTwo);
+    const renderCombined = (searchResOne, searchResTwo) => {
+        searchResOne = searchResTwo;
+        pageUICtrl.renderPage(searchResOne);
+        pageUICtrl.appendPagination(searchResOne);
+        return searchResOne;
     };
 
     // Function to store all event listeners
@@ -159,7 +160,7 @@ const globalController = (function (pageUICtrl) {
             // Get the input, perform the search operations, render a new data on the page
             const $search = $(this).val();
             const searchRes = pageUICtrl.studentSearch($('.student-list li'), $search.toUpperCase());
-            renderCombined(searchRes);
+            $searchResList = renderCombined($searchResList, searchRes);
         });
 
         // Search button event handler
@@ -169,13 +170,10 @@ const globalController = (function (pageUICtrl) {
             // if the input isn't an empty string
             if ($searchClick !== '') {
                 // Perform the search 
-                const searchRes = pageUICtrl.studentSearch($('.student-list li'), $searchClick.toUpperCase());
-                // Update search results, render pages and pagination
-                renderCombined(searchRes);
                 // Clear the input field
                 $searchClick = $('input').val('');
             } else {
-                // If the input is empty, render the page with pagination
+                // If the input is empty, render the initial student list on the page with pagination
                 pageUICtrl.renderPage($studentList);
                 pageUICtrl.appendPagination($studentList);
                 /* Set $searchResList back to default to view the initial student list 
