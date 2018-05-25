@@ -144,6 +144,8 @@ const globalController = (function (pageUICtrl) {
     const $studentList = $(DOM.studentList).children();
     // Store temporary search results
     let $searchResList = $studentList;
+    // Set the last clicked page 
+    let curPage = 1;
 
     // Update search results, render the page and show pagination function combined / DRY 
     const renderCombined = (searchResOne, searchResTwo) => {
@@ -183,16 +185,21 @@ const globalController = (function (pageUICtrl) {
         });
 
         // Page link event listener
-        $('.pagination ul').on('click', 'a', function (e) {
+        $('.pagination ul').on('click', 'a', function (e) {     
             // Prevent default behavior for the a tag 
             e.preventDefault();
             // Get a page number
             const pgNum = parseInt($(e.target).text());
-            // Render the page for the clicked link
-            pageUICtrl.renderPage($searchResList, pgNum);
-            // Mark that link as 'active' and remove 'active' from previously clicked link
-            $(this).addClass(DOM.active);
-            $(this).parent().siblings().children().removeClass(DOM.active);
+            // Do nothing if the page link clicked has the value of the last clicked page
+            if (pgNum !== curPage){
+                // Render the page for the clicked link
+                pageUICtrl.renderPage($searchResList, pgNum);
+                // Mark that link as 'active' and remove 'active' from previously clicked link
+                $(this).addClass(DOM.active);
+                $(this).parent().siblings().children().removeClass(DOM.active);
+            } 
+            // Store the last clicked value
+            curPage = pgNum;
         });
 
     };
